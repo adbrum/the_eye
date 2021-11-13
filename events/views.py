@@ -4,6 +4,7 @@ from rest_framework.generics import ListCreateAPIView
 from rest_framework.views import APIView
 from rest_framework import status
 from events.serializers import EventSerializer, SessionSerializer
+from events.task import create_task
 from .models import Event, Session
 
 
@@ -12,7 +13,7 @@ class SessionModelViewSet(ListCreateAPIView):
     serializer_class = SessionSerializer
 
 
-class EventList(APIView):
+class EventList(ListCreateAPIView):
     def get(self, request, format=None):
         if request.GET.get('category'):
             events = Event.objects.filter(
@@ -32,10 +33,11 @@ class EventList(APIView):
         serializer = EventSerializer(events, many=True)
         return Response(serializer.data)
 
-    def post(self, request, format=None):
+    def create(self, request, format=None):
+        print('POST: ', request.data)
         serializer = EventSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            create_task.delay(request.data)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
