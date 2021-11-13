@@ -10,7 +10,8 @@ System was developed during a practical test for ConsumerAffairs.
 ```
 - [ ] Install [Docker](https://docs.docker.com/engine/install/ubuntu/)
 - [ ] Install [Docker Compose](https://docs.docker.com/compose/install/)
-- [ ] Clone the project $ git clone XXXXXXX`
+- [ ] Clone the project $ git clone (https://github.com/adbrum/the_eye.git)`
+- [ ] $ cd the_eye
 - [ ] Run setup.sh `sh setup.sh` or `./setup.sh`
 - [ ] Create a super user in order to access the Django Admin
 ```
