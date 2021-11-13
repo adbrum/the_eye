@@ -132,3 +132,4 @@ curl --location --request GET 'http://127.0.0.1:8000/events/?timestamp=2021-11-1
 --header 'Content-Type: application/json' \
 --header 'Authorization: Token a85b7781eb826f93280cf4c4ee6c233a69a14ae3'
 ```
+### Information sources for creating parts of the code taken from the web.
