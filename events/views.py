@@ -1,3 +1,4 @@
+from django.http.response import Http404
 from rest_framework.response import Response
 from rest_framework.generics import ListCreateAPIView
 from rest_framework.views import APIView
@@ -37,3 +38,16 @@ class EventList(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class EventDetail(APIView):
+    def get_object(self, pk):
+        try:
+            return Event.objects.get(pk=pk)
+        except Event.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        events = self.get_object(pk)
+        serializer = EventSerializer(events)
+        return Response(serializer.data)

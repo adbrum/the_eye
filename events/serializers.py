@@ -11,4 +11,4 @@ class SessionSerializer(serializers.ModelSerializer):
 class EventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
-        fields = ('session_id', 'timestamp', 'data', 'name', 'category')
+        fields = ('id', 'session_id', 'timestamp', 'data', 'name', 'category')
