@@ -3,9 +3,10 @@ from rest_framework.response import Response
 from rest_framework.generics import ListCreateAPIView
 from rest_framework.views import APIView
 from rest_framework import status
-from events.serializers import EventSerializer, SessionSerializer
+from rest_framework.viewsets import ReadOnlyModelViewSet
+from events.serializers import ErrorSerializer, EventSerializer, SessionSerializer
 from events.task import create_task
-from .models import Event, Session
+from .models import Error, Event, Session
 
 
 class SessionModelViewSet(ListCreateAPIView):
@@ -53,3 +54,21 @@ class EventDetail(APIView):
         events = self.get_object(pk)
         serializer = EventSerializer(events)
         return Response(serializer.data)
+
+    def put(self, request, pk, format=None):
+        events = self.get_object(pk)
+        serializer = EventSerializer(events, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk, format=None):
+        events = self.get_object(pk)
+        events.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class ErrorModelViewSet(ReadOnlyModelViewSet):
+    queryset = Error.objects.all()
+    serializer_class = ErrorSerializer
