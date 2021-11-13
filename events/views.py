@@ -1,8 +1,9 @@
-from django.http.response import HttpResponse
-from django.shortcuts import render
+from rest_framework.generics import ListCreateAPIView
 
-# Create your views here.
+from events.serializers import SessionSerializer
+from .models import Session
 
 
-def index(reqyest):
-    return HttpResponse("<h1>Hello, world. You're at the events index.</h1>")
+class SessionModelViewSet(ListCreateAPIView):
+    queryset = Session.objects.all()
+    serializer_class = SessionSerializer

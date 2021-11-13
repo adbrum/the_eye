@@ -1,8 +1,8 @@
 from django.urls import path
 
-from events import views
+from .views import SessionModelViewSet
 
 
 urlpatterns = [
-    path('events/', views.index, name='index')
+    path('sessions/', SessionModelViewSet.as_view(), name='session'),
 ]
