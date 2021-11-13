@@ -18,7 +18,7 @@ System was developed during a practical test for ConsumerAffairs.
 
 ### Data model
 
-There are three models: Event and Session. Each Event belongs to a Session.
+There are three models: Event, Session and Error. Each Event belongs to a Session.
 
 ### Serializers
 
