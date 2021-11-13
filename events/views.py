@@ -1,6 +1,8 @@
+from django.core.exceptions import SuspiciousFileOperation
 from django.http.response import Http404
 from rest_framework.response import Response
 from rest_framework.generics import ListCreateAPIView
+from rest_framework.serializers import Serializer
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.viewsets import ReadOnlyModelViewSet
@@ -35,10 +37,8 @@ class EventList(ListCreateAPIView):
         return Response(serializer.data)
 
     def create(self, request, format=None):
-        print('POST: ', request.data)
-        serializer = EventSerializer(data=request.data)
-        if serializer.is_valid():
-            create_task.delay(request.data)
+        serializer = create_task(request.data)
+        if serializer.status_code == 201:
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
